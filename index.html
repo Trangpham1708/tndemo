@@ -5,266 +5,331 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Thiệp mời lễ tốt nghiệp</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Great+Vibes&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
+/* ===== CẤU HÌNH CHUNG ===== */
 *{margin:0;padding:0;box-sizing:border-box}
+
+:root {
+  --main-pink: #ff9eb5;      /* Màu hồng điểm nhấn */
+  --text-dark: #4a4a4a;      /* Màu chữ chính */
+  --bg-gradient: linear-gradient(180deg, #fff0f5, #ffe4e1);
+}
 
 body{
   font-family:'Quicksand',sans-serif;
-  background:linear-gradient(180deg,#ffd6e5,#ffeef4);
-  height:100vh;
-  overflow:hidden;
+  background: var(--bg-gradient);
+  min-height:100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  overflow-x: hidden;
 }
 
-/* ===== PAGE ===== */
-.page{
-  position:absolute;
-  inset:0;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
-  transition:opacity 1s ease;
-}
+/* (CSS cho cover page, cloud, envelope, music-btn giữ nguyên) */
+.page-container { position: relative; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; }
+.hidden{ display: none !important; }
 
-.hidden{
-  opacity:0;
-  pointer-events:none;
-}
-
-/* ===== CLOUD ===== */
 .cloud{
-  position:absolute;
-  width:240px;
-  height:240px;
-  background:white;
-  border-radius:50%;
-  opacity:.35;
-  filter:blur(40px);
-  animation:float 30s infinite ease-in-out;
+  position:absolute; width:240px; height:240px;
+  background:white; border-radius:50%; opacity:.4; filter:blur(40px);
+  animation:float 30s infinite ease-in-out; z-index: 0;
 }
-.cloud:nth-child(1){top:8%;left:-90px}
-.cloud:nth-child(2){top:45%;right:-90px}
-.cloud:nth-child(3){bottom:10%;left:40px}
+.cloud:nth-child(1){top:10%;left:-50px}
+.cloud:nth-child(2){top:50%;right:-50px}
+@keyframes float{ 0%,100%{transform:translateX(0)} 50%{transform:translateX(50px)} }
 
-@keyframes float{
-  0%,100%{transform:translateX(0)}
-  50%{transform:translateX(70px)}
-}
+#cover-page { text-align: center; z-index: 10; display: flex; flex-direction: column; align-items: center; }
 
-/* ===== ENVELOPE FIX WHITE BG ===== */
 .envelope-box{
-  background:#ffe4ee;
-  padding:20px;
-  border-radius:18px;
-  box-shadow:0 15px 40px rgba(255,120,160,.35);
-  cursor:pointer;
-  animation:pulse 2s infinite;
-  transition:.8s;
+  background:#ffe4ee; padding:20px; border-radius:18px;
+  box-shadow:0 15px 40px rgba(255,120,160,.35); cursor:pointer;
+  animation:pulse 2s infinite; transition:.8s; max-width: 300px;
+}
+.envelope-box.open{ transform:scale(1.5); opacity:0; }
+.envelope-img{ width:100%; display:block; }
+@keyframes pulse{ 0%,100%{transform:scale(1)} 50%{transform:scale(1.04)} }
+.tap-text{ margin-top:16px; font-size:14px; color:#777; }
+
+.music-btn {
+    position: fixed; top: 20px; right: 20px;
+    width: 40px; height: 40px;
+    background: white; border-radius: 50%;
+    display: flex; justify-content: center; align-items: center;
+    cursor: pointer; box-shadow: 0 4px 10px rgba(255, 107, 156, 0.3);
+    z-index: 1000; font-size: 20px; opacity: 0; 
+    transition: opacity 1s;
+    animation: spinMusic 4s linear infinite; animation-play-state: paused;
+}
+.music-btn.playing { animation-play-state: running; }
+@keyframes spinMusic { 100% { transform: rotate(360deg); } }
+
+
+/* ========================================= */
+/* ===== THIẾT KẾ NỘI DUNG - ĐÃ GIẢM CỠ CHỮ THƯ MỜI ===== */
+/* ========================================= */
+
+.card-frame {
+    background: rgba(255, 255, 255, 0.95);
+    width: 100%;
+    max-width: 550px;
+    border-radius: 25px;
+    padding: 40px 30px; 
+    box-shadow: 0 20px 50px rgba(255, 150, 180, 0.3);
+    position: relative;
+    overflow: hidden;
+    border: 4px solid #fff;
+    outline: 2px dashed var(--main-pink);
+    outline-offset: -10px;
 }
 
-.envelope-box.open{
-  transform:scale(1.2);
-  opacity:0;
+.card-content-layout {
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    position: relative;
+    z-index: 2;
+    text-align: center;
 }
 
-.envelope-img{
-  width:220px;
-  max-width:80vw;
-  display:block;
+.chibi-image-box {
+    width: 100%;
+    margin-bottom: 30px; 
+}
+.chibi-image {
+    width: 65%; 
+    max-width: 250px;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0px 0px 10px var(--main-pink)); 
+    margin-top: 15px;
 }
 
-@keyframes pulse{
-  0%,100%{transform:scale(1)}
-  50%{transform:scale(1.04)}
+.cap-icon {
+    font-size: 35px; color: var(--text-dark);
+    margin-bottom: 10px; 
+    opacity: 0;
 }
 
-.tap-text{
-  margin-top:16px;
-  font-size:14px;
-  color:#777;
+/* CHỈNH SỬA TẠI ĐÂY: Giảm cỡ chữ main-title */
+.main-title {
+    font-family: 'Great Vibes', cursive;
+    font-size: 38px; /* Giảm từ 48px xuống 38px cho Mobile */
+    color: var(--main-pink);
+    line-height: 1.2;
+    margin-bottom: 25px; 
+    text-shadow: 1px 1px 0px rgba(0,0,0,0.1);
+    height: 50px; /* Giảm chiều cao khối để cân bằng với cỡ chữ mới */
 }
 
-/* ===== CHRISTMAS TREE ===== */
-.tree{
-  position:absolute;
-  bottom:20px;
-  right:20px;
-  font-size:50px;
-  animation:treeGlow 2s infinite;
+.student-name {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 24px;
+    color: var(--main-black);
+    text-transform: uppercase;
+    margin-bottom: 30px; 
+    letter-spacing: 2px;
+    opacity: 0;
 }
 
-@keyframes treeGlow{
-  0%,100%{filter:drop-shadow(0 0 0px #fff)}
-  50%{filter:drop-shadow(0 0 12px #fff)}
+.info-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 0 10px;
+    opacity: 0;
 }
 
-/* ===== SNOW ===== */
-.snow{
-  position:absolute;
-  top:-20px;
-  color:white;
-  font-size:14px;
-  opacity:.8;
-  animation:snowFall linear infinite;
+.date-box-container {
+    display: inline-block;
+    padding: 5px 0;
+    margin-bottom: 20px; 
+    color: var(--text-dark);
+}
+.date-row {
+    display: flex;
+    align-items: center;
+    gap: 20px; 
+}
+.date-details {
+    display: flex; flex-direction: column;
+    font-size: 13px; font-weight: 600; text-align: right;
+    text-transform: uppercase;
+    line-height: 1.5; 
+}
+.date-day {
+    font-family: 'Cinzel', serif;
+    font-size: 35px; font-weight: 700;
+    line-height: 1; color: var(--main-pink);
+    border-bottom: 2px solid var(--main-pink);
+    padding-bottom: 5px;
+}
+.date-year {
+    font-family: 'Cinzel', serif;
+    font-size: 16px; font-weight: 700;
+    margin-top: 10px; letter-spacing: 2px;
 }
 
-@keyframes snowFall{
-  to{
-    transform:translateY(110vh);
-    opacity:0;
-  }
+.location-info {
+    font-weight: 600; font-size: 15px; color: #666;
+    margin-bottom: 30px; 
+    line-height: 1.8;
+    opacity: 0;
+}
+.location-icon { color: var(--main-pink); }
+
+.footer-msg {
+    font-size: 14px; color: #888;
+    font-style: italic;
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+    width: 80%;
+    margin: 0 auto;
+    opacity: 0;
+    line-height: 1.6;
 }
 
-/* ===== GRADUATION ===== */
-.handwriting{
-  font-family:'Pacifico',cursive;
-  font-size:40px;
-  color:#222;
-  margin-bottom:10px;
+/* Responsive cho PC: Giảm cỡ chữ main-title trên PC */
+@media (min-width: 768px) {
+    .main-title { 
+        font-size: 48px; /* Giảm từ 58px xuống 48px cho PC */
+    }
+    .student-name { font-size: 28px; }
+    .chibi-image { max-width: 200px; }
 }
 
-.name,.info,.image,.footer{
-  opacity:0;
-  transform:translateY(-20px);
+.fade-item { 
+    transition: opacity 0.8s ease, transform 0.8s ease; 
+    transform: translateY(10px); 
 }
+.show-element { opacity: 1 !important; transform: translateY(0) !important; }
 
-.show{
-  animation:dropFade 1s ease forwards;
-}
-
-@keyframes dropFade{
-  to{opacity:1;transform:translateY(0)}
-}
-
-.image img{
-  width:180px;
-  margin-top:25px;
-}
-
-.footer{
-  margin-top:20px;
-  font-size:14px;
-  color:#555;
-  line-height:1.5;
-}
-
-/* ===== HEART ===== */
-.heart{
-  position:absolute;
-  bottom:-20px;
-  font-size:18px;
-  color:#ff6b9c;
-  animation:heartFloat 6s linear infinite;
-}
-
-@keyframes heartFloat{
-  to{transform:translateY(-110vh);opacity:0}
-}
 </style>
 </head>
 
 <body>
 
-<!-- ===== COVER ===== -->
-<div class="page" id="cover">
-  <div class="cloud"></div>
-  <div class="cloud"></div>
-  <div class="cloud"></div>
+<audio id="bgMusic" loop>
+    <source src="music.mp3" type="audio/mpeg">
+</audio>
+<div class="music-btn" id="musicBtn" onclick="toggleMusic()">🎵</div>
 
-  <div class="envelope-box" id="envelopeBox" onclick="openEnvelope()">
-    <img src="envelope.png" class="envelope-img">
-  </div>
+<div class="page-container">
+    <div id="cover-page">
+      <div class="cloud"></div>
+      <div class="cloud"></div>
+      <div class="envelope-box" id="envelopeBox" onclick="openEnvelope()">
+        <img src="envelope.png" class="envelope-img" alt="Envelope">
+      </div>
+      <div class="tap-text">Chạm để mở thư 💌</div>
+    </div>
 
-  <div class="tap-text">Chạm để mở thư 💌</div>
+    <div id="graduation-page" class="hidden">
+        <div class="card-frame">
+            <div class="card-content-layout">
 
-  <div class="tree">🎄</div>
-</div>
+                <div class="cap-icon" id="capIcon">🎓</div>
+                
+                <div class="main-title" id="mainTitle"></div>
+                
+                <div class="student-name fade-item" data-delay="1">TRẦN THỊ LÊ NHƯ</div>
+                
+                <div class="chibi-image-box fade-item" data-delay="2">
+                    <img src="graduate.png" class="chibi-image" alt="Chibi Graduate">
+                </div>
+                
+                <div class="info-block fade-item" data-delay="3">
+                    <div class="date-box-container">
+                        <div class="date-row">
+                            <div class="date-details">
+                                <span>CHỦ NHẬT</span>
+                                <span>THÁNG 12</span>
+                            </div>
+                            <div class="date-day">27</div>
+                            <div class="date-details" style="text-align: left;">
+                                <span>09:00 AM</span>
+                                <span>To 11:30</span>
+                            </div>
+                        </div>
+                        <div class="date-year">2025</div>
+                    </div>
+                </div>
 
-<!-- ===== INVITATION ===== -->
-<div class="page hidden" id="graduation">
-  <div class="cloud"></div>
-  <div class="cloud"></div>
-  <div class="cloud"></div>
+                <div class="location-info fade-item" data-delay="4">
+                    <span class="location-icon">📍</span> Trường Cao Đẳng Đại Việt Sài Gòn
+                </div>
 
-  <div class="handwriting" id="handText"></div>
-
-  <div class="name">emmmmmmmmmmmmmmmmmmmmmmmmmmmmm</div>
-
-  <div class="info">
-    ⏰ 08:30 AM – 27/12/2025<br>
-    📍 Trường xxxxxxxxxxxxxx
-  </div>
-
-  <div class="image">
-    <img src="graduate.png">
-  </div>
-
-  <div class="footer">
-    Hy vọng bạn sẽ là một phần trong<br>
-    những bức ảnh thanh xuân của mình 💗
-  </div>
+                <div class="footer-msg fade-item" data-delay="5">
+                    Hy vọng bạn sẽ là một phần trong<br>những bức ảnh thanh xuân của mình 💗
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
-/* ===== OPEN ENVELOPE ===== */
+/* ===== JS XỬ LÝ MỞ THƯ & CHẠY CHỮ (Giữ nguyên) ===== */
+const music = document.getElementById("bgMusic");
+const musicBtn = document.getElementById("musicBtn");
+let isPlaying = false;
+
 function openEnvelope(){
   document.getElementById("envelopeBox").classList.add("open");
-  setTimeout(()=>{
-    document.getElementById("cover").classList.add("hidden");
-    document.getElementById("graduation").classList.remove("hidden");
-    writeHand();
-    startHeart();
-  },700);
+  document.querySelector(".tap-text").style.opacity = 0;
+  
+  setTimeout(() => {
+    document.getElementById("cover-page").classList.add("hidden");
+    document.getElementById("graduation-page").classList.remove("hidden");
+    document.getElementById("musicBtn").style.opacity = "1";
+    playMusic(); 
+    writeTitle();
+  }, 700);
 }
 
-/* ===== HANDWRITING ===== */
-const hand = document.getElementById("handText");
-const text = "Thiệp mời lễ tốt nghiệp";
+const mainTitleElement = document.getElementById("mainTitle");
+const titleText = "Lễ Tốt Nghiệp";
 let i = 0;
 
-function writeHand(){
-  if(i < text.length){
-    hand.innerHTML += text[i];
-    i++;
-    setTimeout(writeHand,120);
-  }else{
-    showInfo();
-  }
+function writeTitle(){
+    document.getElementById("capIcon").classList.add('show-element'); 
+    
+    if(i < titleText.length){
+        mainTitleElement.innerHTML += titleText[i];
+        i++;
+        setTimeout(writeTitle, 100); 
+    } else {
+        animateContent();
+    }
 }
 
-/* ===== INFO TOP → BOTTOM ===== */
-function showInfo(){
-  document.querySelectorAll(".name,.info,.image,.footer")
-    .forEach((el,index)=>{
-      setTimeout(()=>el.classList.add("show"), index*700);
+function animateContent(){
+    const items = document.querySelectorAll('.fade-item');
+    items.forEach((item, index) => {
+        setTimeout(() => {
+            item.classList.add('show-element');
+        }, index * 400); 
     });
 }
 
-/* ===== HEART ===== */
-function startHeart(){
-  setInterval(()=>{
-    const h = document.createElement("div");
-    h.className="heart";
-    h.innerHTML="❤";
-    h.style.left=Math.random()*100+"vw";
-    document.body.appendChild(h);
-    setTimeout(()=>h.remove(),6000);
-  },900);
+/* ===== MUSIC CONTROL (Giữ nguyên) ===== */
+function playMusic() {
+    music.play().then(() => {
+        isPlaying = true; musicBtn.classList.add("playing"); musicBtn.innerHTML = "🎵";
+    }).catch(error => { console.log("Auto-play blocked"); });
 }
 
-/* ===== SNOW ===== */
-setInterval(()=>{
-  const s=document.createElement("div");
-  s.className="snow";
-  s.innerHTML="❄";
-  s.style.left=Math.random()*100+"vw";
-  s.style.animationDuration=(5+Math.random()*5)+"s";
-  document.body.appendChild(s);
-  setTimeout(()=>s.remove(),10000);
-},300);
+function toggleMusic() {
+    if (isPlaying) {
+        music.pause(); musicBtn.classList.remove("playing"); musicBtn.innerHTML = "🔇";
+    } else {
+        music.play(); musicBtn.classList.add("playing"); musicBtn.innerHTML = "🎵";
+    }
+    isPlaying = !isPlaying;
+}
 </script>
 
 </body>
