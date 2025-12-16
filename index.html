@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Thư mời tốt nghiệp</title>
+<title>Thiệp mời lễ tốt nghiệp</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Quicksand:wght@400;600&family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Pacifico&display=swap" rel="stylesheet">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -20,14 +20,12 @@ body{
 /* ===== PAGE ===== */
 .page{
   position:absolute;
-  width:100%;
-  height:100%;
+  inset:0;
   display:flex;
+  flex-direction:column;
   justify-content:center;
   align-items:center;
-  flex-direction:column;
   text-align:center;
-  padding:30px 20px;
   transition:opacity 1s ease;
 }
 
@@ -43,39 +41,87 @@ body{
   height:240px;
   background:white;
   border-radius:50%;
-  opacity:.45;
-  filter:blur(35px);
-  animation:float 25s infinite ease-in-out;
+  opacity:.35;
+  filter:blur(40px);
+  animation:float 30s infinite ease-in-out;
 }
-
-.cloud:nth-child(1){top:10%;left:-80px}
-.cloud:nth-child(2){top:45%;right:-80px;animation-duration:30s}
-.cloud:nth-child(3){bottom:10%;left:30px;animation-duration:28s}
+.cloud:nth-child(1){top:8%;left:-90px}
+.cloud:nth-child(2){top:45%;right:-90px}
+.cloud:nth-child(3){bottom:10%;left:40px}
 
 @keyframes float{
   0%,100%{transform:translateX(0)}
-  50%{transform:translateX(60px)}
+  50%{transform:translateX(70px)}
 }
 
-/* ===== INTRO ===== */
-.icon{
+/* ===== ENVELOPE FIX WHITE BG ===== */
+.envelope-box{
+  background:#ffe4ee;
+  padding:20px;
+  border-radius:18px;
+  box-shadow:0 15px 40px rgba(255,120,160,.35);
+  cursor:pointer;
+  animation:pulse 2s infinite;
+  transition:.8s;
+}
+
+.envelope-box.open{
+  transform:scale(1.2);
+  opacity:0;
+}
+
+.envelope-img{
+  width:220px;
+  max-width:80vw;
+  display:block;
+}
+
+@keyframes pulse{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.04)}
+}
+
+.tap-text{
+  margin-top:16px;
+  font-size:14px;
+  color:#777;
+}
+
+/* ===== CHRISTMAS TREE ===== */
+.tree{
+  position:absolute;
+  bottom:20px;
+  right:20px;
   font-size:50px;
-  margin-bottom:20px;
+  animation:treeGlow 2s infinite;
 }
 
-.intro-text{
-  font-family:'Playfair Display',serif;
-  font-size:28px;
-  font-weight:600;
-  color:#111;
-  min-height:90px;
-  line-height:1.3;
+@keyframes treeGlow{
+  0%,100%{filter:drop-shadow(0 0 0px #fff)}
+  50%{filter:drop-shadow(0 0 12px #fff)}
+}
+
+/* ===== SNOW ===== */
+.snow{
+  position:absolute;
+  top:-20px;
+  color:white;
+  font-size:14px;
+  opacity:.8;
+  animation:snowFall linear infinite;
+}
+
+@keyframes snowFall{
+  to{
+    transform:translateY(110vh);
+    opacity:0;
+  }
 }
 
 /* ===== GRADUATION ===== */
 .handwriting{
   font-family:'Pacifico',cursive;
-  font-size:42px;
+  font-size:40px;
   color:#222;
   margin-bottom:10px;
 }
@@ -85,46 +131,24 @@ body{
   transform:translateY(-20px);
 }
 
-/* ===== IMAGE ===== */
-.image img{
-  width:180px;
-  margin-top:25px;
-}
-
-/* ===== FOOTER ===== */
-.footer{
-  margin-top:20px;
-  font-size:14px;
-  color:#555;
-  line-height:1.5;
-}
-
-/* ===== ANIMATION ===== */
 .show{
   animation:dropFade 1s ease forwards;
 }
 
 @keyframes dropFade{
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
+  to{opacity:1;transform:translateY(0)}
 }
 
-/* ===== FLOWER ===== */
-.flower{
-  position:absolute;
-  top:-30px;
-  font-size:18px;
-  animation:fall linear infinite;
-  opacity:.8;
+.image img{
+  width:180px;
+  margin-top:25px;
 }
 
-@keyframes fall{
-  to{
-    transform:translateY(110vh) rotate(360deg);
-    opacity:0;
-  }
+.footer{
+  margin-top:20px;
+  font-size:14px;
+  color:#555;
+  line-height:1.5;
 }
 
 /* ===== HEART ===== */
@@ -137,27 +161,29 @@ body{
 }
 
 @keyframes heartFloat{
-  to{
-    transform:translateY(-110vh) translateX(-20px);
-    opacity:0;
-  }
+  to{transform:translateY(-110vh);opacity:0}
 }
 </style>
 </head>
 
 <body>
 
-<!-- ===== INTRO ===== -->
-<div class="page" id="intro">
+<!-- ===== COVER ===== -->
+<div class="page" id="cover">
   <div class="cloud"></div>
   <div class="cloud"></div>
   <div class="cloud"></div>
 
-  <div class="icon">🎓📜</div>
-  <div class="intro-text" id="introText"></div>
+  <div class="envelope-box" id="envelopeBox" onclick="openEnvelope()">
+    <img src="envelope.png" class="envelope-img">
+  </div>
+
+  <div class="tap-text">Chạm để mở thư 💌</div>
+
+  <div class="tree">🎄</div>
 </div>
 
-<!-- ===== GRADUATION ===== -->
+<!-- ===== INVITATION ===== -->
 <div class="page hidden" id="graduation">
   <div class="cloud"></div>
   <div class="cloud"></div>
@@ -165,7 +191,7 @@ body{
 
   <div class="handwriting" id="handText"></div>
 
-  <div class="name">Trần Thị Lê Như </div>
+  <div class="name">emmmmmmmmmmmmmmmmmmmmmmmmmmmmm</div>
 
   <div class="info">
     ⏰ 08:30 AM – 27/12/2025<br>
@@ -183,83 +209,62 @@ body{
 </div>
 
 <script>
-/* ===== INTRO TYPE ===== */
-const introContent = "THƯ MỜI\nDỰ LỄ TỐT NGHIỆP";
-const introText = document.getElementById("introText");
-let i = 0;
-
-function typeIntro(){
-  if(i < introContent.length){
-    introText.innerHTML += introContent[i] === "\n" ? "<br>" : introContent[i];
-    i++;
-    setTimeout(typeIntro, 80);
-  }else{
-    setTimeout(showGraduation, 1200);
-  }
+/* ===== OPEN ENVELOPE ===== */
+function openEnvelope(){
+  document.getElementById("envelopeBox").classList.add("open");
+  setTimeout(()=>{
+    document.getElementById("cover").classList.add("hidden");
+    document.getElementById("graduation").classList.remove("hidden");
+    writeHand();
+    startHeart();
+  },700);
 }
-typeIntro();
 
 /* ===== HANDWRITING ===== */
 const hand = document.getElementById("handText");
-const handText = "Graduation";
-let h = 0;
+const text = "Thiệp mời lễ tốt nghiệp";
+let i = 0;
 
 function writeHand(){
-  if(h < handText.length){
-    hand.innerHTML += handText[h];
-    h++;
-    setTimeout(writeHand, 120);
+  if(i < text.length){
+    hand.innerHTML += text[i];
+    i++;
+    setTimeout(writeHand,120);
   }else{
-    showInfoSequential();
+    showInfo();
   }
 }
 
-/* ===== SHOW INFO ONE BY ONE ===== */
-function showInfoSequential(){
-  const items = document.querySelectorAll(
-    ".name, .info, .image, .footer"
-  );
-  items.forEach((el, index)=>{
-    setTimeout(()=>{
-      el.classList.add("show");
-    }, index * 700);
-  });
-}
-
-/* ===== SWITCH PAGE ===== */
-function showGraduation(){
-  document.getElementById("intro").classList.add("hidden");
-  document.getElementById("graduation").classList.remove("hidden");
-  writeHand();
-  startFlower();
-  startHeart();
-}
-
-/* ===== FLOWER ===== */
-function startFlower(){
-  setInterval(()=>{
-    const f = document.createElement("div");
-    f.className = "flower";
-    f.innerHTML = "🌸";
-    f.style.left = Math.random()*100 + "vw";
-    f.style.animationDuration = (6 + Math.random()*4) + "s";
-    document.body.appendChild(f);
-    setTimeout(()=>f.remove(),10000);
-  },600);
+/* ===== INFO TOP → BOTTOM ===== */
+function showInfo(){
+  document.querySelectorAll(".name,.info,.image,.footer")
+    .forEach((el,index)=>{
+      setTimeout(()=>el.classList.add("show"), index*700);
+    });
 }
 
 /* ===== HEART ===== */
 function startHeart(){
   setInterval(()=>{
     const h = document.createElement("div");
-    h.className = "heart";
-    h.innerHTML = "❤";
-    h.style.left = Math.random()*100 + "vw";
-    h.style.animationDuration = (5 + Math.random()*3) + "s";
+    h.className="heart";
+    h.innerHTML="❤";
+    h.style.left=Math.random()*100+"vw";
     document.body.appendChild(h);
-    setTimeout(()=>h.remove(),9000);
-  },800);
+    setTimeout(()=>h.remove(),6000);
+  },900);
 }
+
+/* ===== SNOW ===== */
+setInterval(()=>{
+  const s=document.createElement("div");
+  s.className="snow";
+  s.innerHTML="❄";
+  s.style.left=Math.random()*100+"vw";
+  s.style.animationDuration=(5+Math.random()*5)+"s";
+  document.body.appendChild(s);
+  setTimeout(()=>s.remove(),10000);
+},300);
 </script>
 
 </body>
