@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thư mời tốt nghiệp</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Quicksand:wght@400;600&family=Pacifico&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+  font-family:'Quicksand',sans-serif;
+  background:linear-gradient(180deg,#ffd6e5,#ffeef4);
+  height:100vh;
+  overflow:hidden;
+}
+
+/* ===== PAGE ===== */
+.page{
+  position:absolute;
+  width:100%;
+  height:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  text-align:center;
+  padding:30px 20px;
+  transition:opacity 1s ease;
+}
+
+.hidden{
+  opacity:0;
+  pointer-events:none;
+}
+
+/* ===== CLOUD ===== */
+.cloud{
+  position:absolute;
+  width:240px;
+  height:240px;
+  background:white;
+  border-radius:50%;
+  opacity:.45;
+  filter:blur(35px);
+  animation:float 25s infinite ease-in-out;
+}
+
+.cloud:nth-child(1){top:10%;left:-80px}
+.cloud:nth-child(2){top:45%;right:-80px;animation-duration:30s}
+.cloud:nth-child(3){bottom:10%;left:30px;animation-duration:28s}
+
+@keyframes float{
+  0%,100%{transform:translateX(0)}
+  50%{transform:translateX(60px)}
+}
+
+/* ===== INTRO ===== */
+.icon{
+  font-size:50px;
+  margin-bottom:20px;
+}
+
+.intro-text{
+  font-family:'Playfair Display',serif;
+  font-size:28px;
+  font-weight:600;
+  color:#111;
+  min-height:90px;
+  line-height:1.3;
+}
+
+/* ===== GRADUATION ===== */
+.handwriting{
+  font-family:'Pacifico',cursive;
+  font-size:42px;
+  color:#222;
+  margin-bottom:10px;
+}
+
+.name,.info,.image,.footer{
+  opacity:0;
+  transform:translateY(-20px);
+}
+
+/* ===== IMAGE ===== */
+.image img{
+  width:180px;
+  margin-top:25px;
+}
+
+/* ===== FOOTER ===== */
+.footer{
+  margin-top:20px;
+  font-size:14px;
+  color:#555;
+  line-height:1.5;
+}
+
+/* ===== ANIMATION ===== */
+.show{
+  animation:dropFade 1s ease forwards;
+}
+
+@keyframes dropFade{
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+/* ===== FLOWER ===== */
+.flower{
+  position:absolute;
+  top:-30px;
+  font-size:18px;
+  animation:fall linear infinite;
+  opacity:.8;
+}
+
+@keyframes fall{
+  to{
+    transform:translateY(110vh) rotate(360deg);
+    opacity:0;
+  }
+}
+
+/* ===== HEART ===== */
+.heart{
+  position:absolute;
+  bottom:-20px;
+  font-size:18px;
+  color:#ff6b9c;
+  animation:heartFloat 6s linear infinite;
+}
+
+@keyframes heartFloat{
+  to{
+    transform:translateY(-110vh) translateX(-20px);
+    opacity:0;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ===== INTRO ===== -->
+<div class="page" id="intro">
+  <div class="cloud"></div>
+  <div class="cloud"></div>
+  <div class="cloud"></div>
+
+  <div class="icon">🎓📜</div>
+  <div class="intro-text" id="introText"></div>
+</div>
+
+<!-- ===== GRADUATION ===== -->
+<div class="page hidden" id="graduation">
+  <div class="cloud"></div>
+  <div class="cloud"></div>
+  <div class="cloud"></div>
+
+  <div class="handwriting" id="handText"></div>
+
+  <div class="name">Trần Thị Lê Như </div>
+
+  <div class="info">
+    ⏰ 08:30 AM – 27/12/2025<br>
+    📍 Trường xxxxxxxxxxxxxx
+  </div>
+
+  <div class="image">
+    <img src="graduate.png">
+  </div>
+
+  <div class="footer">
+    Hy vọng bạn sẽ là một phần trong<br>
+    những bức ảnh thanh xuân của mình 💗
+  </div>
+</div>
+
+<script>
+/* ===== INTRO TYPE ===== */
+const introContent = "THƯ MỜI\nDỰ LỄ TỐT NGHIỆP";
+const introText = document.getElementById("introText");
+let i = 0;
+
+function typeIntro(){
+  if(i < introContent.length){
+    introText.innerHTML += introContent[i] === "\n" ? "<br>" : introContent[i];
+    i++;
+    setTimeout(typeIntro, 80);
+  }else{
+    setTimeout(showGraduation, 1200);
+  }
+}
+typeIntro();
+
+/* ===== HANDWRITING ===== */
+const hand = document.getElementById("handText");
+const handText = "Graduation";
+let h = 0;
+
+function writeHand(){
+  if(h < handText.length){
+    hand.innerHTML += handText[h];
+    h++;
+    setTimeout(writeHand, 120);
+  }else{
+    showInfoSequential();
+  }
+}
+
+/* ===== SHOW INFO ONE BY ONE ===== */
+function showInfoSequential(){
+  const items = document.querySelectorAll(
+    ".name, .info, .image, .footer"
+  );
+  items.forEach((el, index)=>{
+    setTimeout(()=>{
+      el.classList.add("show");
+    }, index * 700);
+  });
+}
+
+/* ===== SWITCH PAGE ===== */
+function showGraduation(){
+  document.getElementById("intro").classList.add("hidden");
+  document.getElementById("graduation").classList.remove("hidden");
+  writeHand();
+  startFlower();
+  startHeart();
+}
+
+/* ===== FLOWER ===== */
+function startFlower(){
+  setInterval(()=>{
+    const f = document.createElement("div");
+    f.className = "flower";
+    f.innerHTML = "🌸";
+    f.style.left = Math.random()*100 + "vw";
+    f.style.animationDuration = (6 + Math.random()*4) + "s";
+    document.body.appendChild(f);
+    setTimeout(()=>f.remove(),10000);
+  },600);
+}
+
+/* ===== HEART ===== */
+function startHeart(){
+  setInterval(()=>{
+    const h = document.createElement("div");
+    h.className = "heart";
+    h.innerHTML = "❤";
+    h.style.left = Math.random()*100 + "vw";
+    h.style.animationDuration = (5 + Math.random()*3) + "s";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),9000);
+  },800);
+}
+</script>
+
+</body>
+</html>
