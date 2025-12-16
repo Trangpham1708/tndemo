@@ -28,10 +28,18 @@ body{
   overflow-x: hidden;
 }
 
-/* (CSS cho cover page, cloud, envelope, music-btn giữ nguyên) */
-.page-container { position: relative; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; }
+/* ===== PHẦN BÌA THƯ VÀ HIỆU ỨNG (Giữ nguyên) ===== */
+.page-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .hidden{ display: none !important; }
 
+/* ... (CSS cho cloud, envelope, music-btn giữ nguyên) ... */
 .cloud{
   position:absolute; width:240px; height:240px;
   background:white; border-radius:50%; opacity:.4; filter:blur(40px);
@@ -66,9 +74,8 @@ body{
 .music-btn.playing { animation-play-state: running; }
 @keyframes spinMusic { 100% { transform: rotate(360deg); } }
 
-
 /* ========================================= */
-/* ===== THIẾT KẾ NỘI DUNG - ĐÃ GIẢM CỠ CHỮ THƯ MỜI ===== */
+/* ===== THIẾT KẾ NỘI DUNG SAU KHI CHỈNH SỬA ===== */
 /* ========================================= */
 
 .card-frame {
@@ -76,7 +83,7 @@ body{
     width: 100%;
     max-width: 550px;
     border-radius: 25px;
-    padding: 40px 30px; 
+    padding: 30px 25px;
     box-shadow: 0 20px 50px rgba(255, 150, 180, 0.3);
     position: relative;
     overflow: hidden;
@@ -85,6 +92,7 @@ body{
     outline-offset: -10px;
 }
 
+/* Bố cục chính */
 .card-content-layout {
     display: flex;
     flex-direction: column; 
@@ -94,47 +102,51 @@ body{
     text-align: center;
 }
 
+/* ẢNH CHIBI (Đã tách ra) */
 .chibi-image-box {
     width: 100%;
-    margin-bottom: 30px; 
+    margin-bottom: 20px;
 }
 .chibi-image {
     width: 65%; 
     max-width: 250px;
     height: auto;
     object-fit: contain;
+    /* Hiệu ứng phát sáng nhẹ - cần ảnh PNG xóa nền */
     filter: drop-shadow(0px 0px 10px var(--main-pink)); 
     margin-top: 15px;
 }
 
+/* Icon mũ */
 .cap-icon {
     font-size: 35px; color: var(--text-dark);
-    margin-bottom: 10px; 
-    opacity: 0;
+    margin-bottom: 5px; opacity: 0;
 }
 
-/* CHỈNH SỬA TẠI ĐÂY: Giảm cỡ chữ main-title */
+/* Tiêu đề chính (Thư Mời...) - Sẽ được viết tay bằng JS */
 .main-title {
     font-family: 'Great Vibes', cursive;
-    font-size: 38px; /* Giảm từ 48px xuống 38px cho Mobile */
+    font-size: 48px;
     color: var(--main-pink);
     line-height: 1.2;
-    margin-bottom: 25px; 
+    margin-bottom: 15px;
     text-shadow: 1px 1px 0px rgba(0,0,0,0.1);
-    height: 50px; /* Giảm chiều cao khối để cân bằng với cỡ chữ mới */
+    height: 60px; /* Giữ chỗ để chữ viết ra */
 }
 
+/* 2. CHỮ TRẦN THỊ LÊ NHƯ ĐẶC BIỆT */
 .student-name {
-    font-family: 'Cinzel', serif;
+    font-family: 'Cinzel', serif; /* Font sang trọng */
     font-weight: 700;
     font-size: 24px;
-    color: var(--main-black);
+    color: var(--main-pink); /* Màu hồng nổi bật */
     text-transform: uppercase;
-    margin-bottom: 30px; 
+    margin-bottom: 20px;
     letter-spacing: 2px;
     opacity: 0;
 }
 
+/* Khối Ngày Giờ (Sắp xếp gọn gàng) */
 .info-block {
     display: flex;
     flex-direction: column;
@@ -147,19 +159,20 @@ body{
 .date-box-container {
     display: inline-block;
     padding: 5px 0;
-    margin-bottom: 20px; 
+    margin-bottom: 10px;
     color: var(--text-dark);
 }
 .date-row {
     display: flex;
     align-items: center;
-    gap: 20px; 
+    justify-content: center;
+    gap: 15px;
 }
 .date-details {
     display: flex; flex-direction: column;
     font-size: 13px; font-weight: 600; text-align: right;
     text-transform: uppercase;
-    line-height: 1.5; 
+    line-height: 1.2;
 }
 .date-day {
     font-family: 'Cinzel', serif;
@@ -174,14 +187,15 @@ body{
     margin-top: 10px; letter-spacing: 2px;
 }
 
+/* Địa điểm */
 .location-info {
     font-weight: 600; font-size: 15px; color: #666;
-    margin-bottom: 30px; 
-    line-height: 1.8;
+    margin-bottom: 25px; line-height: 1.6;
     opacity: 0;
 }
 .location-icon { color: var(--main-pink); }
 
+/* Lời chúc cuối (Footer) */
 .footer-msg {
     font-size: 14px; color: #888;
     font-style: italic;
@@ -190,24 +204,21 @@ body{
     width: 80%;
     margin: 0 auto;
     opacity: 0;
-    line-height: 1.6;
 }
 
-/* Responsive cho PC: Giảm cỡ chữ main-title trên PC */
-@media (min-width: 768px) {
-    .main-title { 
-        font-size: 48px; /* Giảm từ 58px xuống 48px cho PC */
-    }
-    .student-name { font-size: 28px; }
-    .chibi-image { max-width: 200px; }
-}
-
+/* Hiệu ứng hiện dần cho các block (không áp dụng cho title) */
 .fade-item { 
     transition: opacity 0.8s ease, transform 0.8s ease; 
     transform: translateY(10px); 
 }
 .show-element { opacity: 1 !important; transform: translateY(0) !important; }
 
+/* Responsive cho PC: Ảnh nhỏ lại và text gọn hơn */
+@media (min-width: 768px) {
+    .main-title { font-size: 58px; }
+    .student-name { font-size: 28px; }
+    .chibi-image { max-width: 200px; }
+}
 </style>
 </head>
 
@@ -252,7 +263,7 @@ body{
                             <div class="date-day">27</div>
                             <div class="date-details" style="text-align: left;">
                                 <span>09:00 AM</span>
-                                <span>To 11:30</span>
+                                <span>đến 11:30</span>
                             </div>
                         </div>
                         <div class="date-year">2025</div>
@@ -272,7 +283,7 @@ body{
 </div>
 
 <script>
-/* ===== JS XỬ LÝ MỞ THƯ & CHẠY CHỮ (Giữ nguyên) ===== */
+/* ===== JS XỬ LÝ MỞ THƯ & CHẠY CHỮ (Đã tối ưu) ===== */
 const music = document.getElementById("bgMusic");
 const musicBtn = document.getElementById("musicBtn");
 let isPlaying = false;
@@ -281,41 +292,49 @@ function openEnvelope(){
   document.getElementById("envelopeBox").classList.add("open");
   document.querySelector(".tap-text").style.opacity = 0;
   
+  // Hiện thiệp và nút nhạc ngay để chuẩn bị hiệu ứng
   setTimeout(() => {
     document.getElementById("cover-page").classList.add("hidden");
     document.getElementById("graduation-page").classList.remove("hidden");
     document.getElementById("musicBtn").style.opacity = "1";
-    playMusic(); 
+    playMusic(); // Bắt đầu phát nhạc
+    
+    // Bắt đầu hiệu ứng chạy chữ
     writeTitle();
   }, 700);
 }
 
+/* 3. Hiệu ứng chạy từng chữ */
 const mainTitleElement = document.getElementById("mainTitle");
-const titleText = "Lễ Tốt Nghiệp";
+const titleText = "Thư Mời Lễ Tốt Nghiệp";
 let i = 0;
 
 function writeTitle(){
-    document.getElementById("capIcon").classList.add('show-element'); 
+    document.getElementById("capIcon").classList.add('show-element'); // Hiện icon
     
+    // Viết từng chữ
     if(i < titleText.length){
         mainTitleElement.innerHTML += titleText[i];
         i++;
-        setTimeout(writeTitle, 100); 
+        setTimeout(writeTitle, 100); // Tốc độ viết
     } else {
+        // Sau khi viết xong, bắt đầu hiệu ứng hiện dần các khối còn lại
         animateContent();
     }
 }
 
+/* Hiện dần các khối còn lại từ trên xuống dưới */
 function animateContent(){
     const items = document.querySelectorAll('.fade-item');
     items.forEach((item, index) => {
+        // Sử dụng index để tạo độ trễ
         setTimeout(() => {
             item.classList.add('show-element');
-        }, index * 400); 
+        }, index * 400); // Mỗi khối hiện cách nhau 0.4s
     });
 }
 
-/* ===== MUSIC CONTROL (Giữ nguyên) ===== */
+/* ===== MUSIC CONTROL ===== */
 function playMusic() {
     music.play().then(() => {
         isPlaying = true; musicBtn.classList.add("playing"); musicBtn.innerHTML = "🎵";
